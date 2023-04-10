@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.security.Principal;
 
 //import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
+//
 
 
 @RestController
