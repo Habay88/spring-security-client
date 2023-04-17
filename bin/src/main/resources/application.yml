@@ -11,25 +11,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-      
-# Java mail properties
-  mail:
-    host: localhost
-    port: 1025
-    username: habay
-    password: habay
-    properties:
-      mail:
-        smtp:
-          trust: "*"
-        auth: true
-        starttls:
-          enabled: true
-        connectiontimeout: 5000
-        timeout: 3000
-        writetimeout: 5000
-
-
 #  security:
 #    oauth2:
 #      client:

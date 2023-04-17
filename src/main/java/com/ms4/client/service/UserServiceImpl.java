@@ -16,8 +16,13 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
+
 @Service
 public class UserServiceImpl implements UserService {
+	private static final String CONFIRMATION_URL = "http://localhost:8082/api/v1/authentication/confirm?token=%s";
+	@Autowired
+	private  EmailService emailService;
 
     @Autowired
     private UserRepository userRepository;
@@ -41,6 +46,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
 
         userRepository.save(user);
+        try {
+			emailService.send(userModel.getEmail(),
+					userModel.getFirstName(),null,
+					String.format(CONFIRMATION_URL, user));
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return user;
     }
 
