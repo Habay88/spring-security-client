@@ -18,10 +18,12 @@ import com.ms4.client.entity.Role;
 import com.ms4.client.exception.ResourceNotFoundException;
 import com.ms4.client.repository.RoleRepository;
 
+import groovy.util.logging.Log;
+import groovy.util.logging.Slf4j;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
+@Slf4j
 @RestController
-@RequestMapping("/api/v1/")
+//@RequestMapping("/api/v1")
 public class RoleController {
 
 	@Autowired
@@ -32,20 +34,25 @@ public class RoleController {
 		return roleRepository.findAll();
 	}	
 	
-	@PostMapping("/roles")
-	public Role createRole(@RequestBody Role role) {
-		return roleRepository.save(role);
+	@PostMapping("/addRole")
+	public Role createRole(@RequestBody Role roles) {
+		Role role = new Role();
+		role.setDescription(roles.getDescription());
+		role.setDetails(roles.getDetails());
+		 roleRepository.save(role);
+
+		return role;
 	}
 	// get employee by id rest api
 		@GetMapping("/roles/{id}")
-		public ResponseEntity<Role> getRoleById(@PathVariable Integer id) {
+		public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
 			Role role = roleRepository.findById(id)
-					.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
+					.orElseThrow(() -> new ResourceNotFoundException("Role not exist with id :" + id));
 			return ResponseEntity.ok(role);
 		}
 		
 		@PutMapping("/roles/{id}")
-		public ResponseEntity<Role> updateRolee(@PathVariable Integer id, @RequestBody Role roleDetails){
+		public ResponseEntity<Role> updateRolee(@PathVariable Long id, @RequestBody Role roleDetails){
 			Role role = roleRepository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
 			
@@ -58,7 +65,7 @@ public class RoleController {
 		}
 		// delete employee rest api
 		@DeleteMapping("/roles/{id}")
-		public ResponseEntity<Map<String, Boolean>> deleteRole(@PathVariable Integer id){
+		public ResponseEntity<Map<String, Boolean>> deleteRole(@PathVariable Long id){
 			Role role = roleRepository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
 			
